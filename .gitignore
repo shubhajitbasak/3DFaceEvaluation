@@ -4,3 +4,5 @@
 /Data/MICCFlorence/Images
 /Data/MICCFlorence/Reconstruction
 .idea
+/Data/MICCFlorence/BFM/bfm.blend
+/Data/MICCFlorence/BFM/landmark_ids_loc.npy
