@@ -16,7 +16,7 @@ def createFlorenceImageFoleders():
 
 
 def createFlorenceReconFolders():
-    for folder in ['GroundTruth', 'BFMRegistered']:
+    for folder in ['GroundTruth', 'BFMRegistered', 'BFMAligned']:
         for i in range(1, 54):
             reconPath = os.path.join(florenceReconstructionPath, folder, f"subject_{i:02d}")
             if not os.path.exists(reconPath):
@@ -32,3 +32,11 @@ def copyFlorenceGTData():
             # print(os.path.join(GTPath, f"subject_{i:02d}"))
             shutil.copyfile(objFile[0], os.path.join(GTPath, f"subject_{i:02d}", objFile[0].split('/')[-1]))
             # print(objFile[0], objFile[0].split('/')[-1])
+
+
+def createImageListFile():
+    imagePath = '/mnt/sata/code/myGit/3DFaceEvaluation/Data/MICCFlorence/Images'
+    files = sorted(glob.glob(imagePath + '/**/*.jpg', recursive=True))
+    test = 5
+
+createImageListFile()
