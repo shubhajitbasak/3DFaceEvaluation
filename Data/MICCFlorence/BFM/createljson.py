@@ -39,3 +39,5 @@ with open('../../Test/landmark_ids_bfm.ljson', 'w') as f2:
 # # m3io.export_mesh(source, 'Test/bfm_aligned.obj')
 # result = nicp.non_rigid_icp(template, source, landmark_group='LJSON', verbose=True)
 # m3io.export_mesh(result, exportPath, overwrite=True)
+
+

@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import glob
 import os
+import shutil
 # from facenet_pytorch import MTCNN
 # from PIL import Image
 # from matplotlib import pyplot as plt
@@ -134,6 +135,14 @@ if __name__ == '__main__':
     # main()
     # cleanMICCFaceImage('/mnt/sata/data/Florence/FlorenceFace/RawFrames/subject_2*')
     displayfilecount('/mnt/sata/data/Florence/FlorenceFace/RawFrames')
+
+    # imagepath = '/mnt/sata/data/Florence/FlorenceFace/RawFrames'
+    # videofiles = sorted(glob.glob(imagepath + '/**/*.obj', recursive=True))
+    #
+    # for f in videofiles:
+    #     # os.remove(f)
+    #     os.makedirs(os.path.dirname(f.replace('RawFrames', 'Pred_Microsoft3d')), exist_ok=True)
+    #     shutil.move(f, f.replace('RawFrames', 'Pred_Microsoft3d'))
 
 
 
