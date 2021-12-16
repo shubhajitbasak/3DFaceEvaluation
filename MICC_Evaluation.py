@@ -53,6 +53,7 @@ class MICC_Benchmark():
         return dist
 
     def calculate_error(self, fitting_path, gt_path, id, setting, scan, tight_mask=False):
+        print(self.registration_path + gt_path + 'obj/*.obj')
         org = m3io.import_meshes(self.registration_path + gt_path + 'obj/*.obj')[0]
         org_lms = m3io.import_landmark_files(self.landmarks_path + gt_path + 'obj/*.ljson')[0]['LJSON']
         org.landmarks['LJSON'] = org_lms
@@ -63,13 +64,14 @@ class MICC_Benchmark():
         reg = m3io.import_meshes(self.registration_path + gt_path + 'obj/*.obj')[0]
         reg.landmarks = org.landmarks
 
+        print(fitting_path + '/subject_' + "%02d" % (id) + '/' + setting + '.obj')
         rec = m3io.import_mesh(fitting_path + '/subject_' + "%02d" % (id) + '/' + setting + '.obj')
         rec.landmarks['LJSON'] = PointCloud(rec.points[self.template_lms])
 
         return (self.point2plane_ICP(reg, rec, tight_mask) + self.point2plane_ICP(rec, reg, tight_mask)) / 2
 
     def benchmark(self, fitting_path):
-        distances = np.ones([3, 2, 53]) * np.Inf
+        distances = np.ones([3, 2, 52]) * np.Inf
         for setting_id, setting in enumerate(['Indoor-Cooperative', 'PTZ-Indoor', 'PTZ-Outdoor']):
             for scan in [1, 2]:
                 for id in range(1, 54):
@@ -78,11 +80,16 @@ class MICC_Benchmark():
                         print('ID: ' + str(id))
 
                         if id == 28:
-                            distances[setting_id, scan - 1, id - 1] = self.calculate_error(fitting_path, gt_path, id,
-                                                                                           setting, scan, True)
+                            distances[setting_id, scan - 1, id - 1] = \
+                                self.calculate_error(fitting_path, gt_path, id, setting, scan, True)
+                        elif id == 30:
+                            continue
+                        elif id > 30:
+                            distances[setting_id, scan - 1, id - 2] = \
+                                self.calculate_error(fitting_path, gt_path, id, setting, scan, False)  # False
                         else:
-                            distances[setting_id, scan - 1, id - 1] = self.calculate_error(fitting_path, gt_path, id,
-                                                                                           setting, scan, False)
+                            distances[setting_id, scan - 1, id - 1] = \
+                                self.calculate_error(fitting_path, gt_path, id, setting, scan, False)  # False
 
         return np.min(np.array(distances), 1)
 
@@ -90,12 +97,14 @@ class MICC_Benchmark():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # Paths
-    parser.add_argument("registration_path", help="path to the registered MICC Florence dataset")
-    parser.add_argument("reconstruction_path", help="path to the reconstructions to be evaluated")
-    parser.add_argument('--landmarks', default='MICC_landmarks',
+    parser.add_argument("--registration_path", default='Data/MICCFlorence/Reconstruction/BFMRegistered',
+                        help="path to the registered MICC Florence dataset")
+    parser.add_argument("--reconstruction_path", default='/mnt/sata/data/Florence/FlorenceFace/RawFrames',
+                        help="path to the reconstructions to be evaluated")
+    parser.add_argument('--landmarks', default='Data/MICCFlorence/MICC_landmarks',
                         help='Manually labelled ibug68 landmarks of the MICC dataset')
-    parser.add_argument('--template', default='template.obj', help='Template face obj')
-    parser.add_argument('--template_lms', default='landmark_ids.pkl',
+    parser.add_argument('--template', default='Data/MICCFlorence/BFM/bfm_model_front.obj', help='Template face obj')
+    parser.add_argument('--template_lms', default='Data/MICCFlorence/BFM/landmark_ids_bfm.pkl',
                         help='Landmark indices of the template Trimesh as pkl file')
     args, _ = parser.parse_known_args()
 

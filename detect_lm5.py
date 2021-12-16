@@ -2,6 +2,10 @@ import cv2
 import mediapipe as mp
 import glob
 import os
+# from facenet_pytorch import MTCNN
+# from PIL import Image
+# from matplotlib import pyplot as plt
+import numpy as np
 
 
 def midpoint(p1, p2):
@@ -21,8 +25,8 @@ def generate5keypoints(img):
     mp_face_mesh = mp.solutions.face_mesh
     with mp_face_mesh.FaceMesh(
             static_image_mode=True,
-            max_num_faces=2,
-            min_detection_confidence=0.5) as face_mesh:
+            max_num_faces=1,
+            min_detection_confidence=0.9) as face_mesh:
         # annotated_image = image.copy()
         results = face_mesh.process(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
@@ -44,9 +48,9 @@ def generate5keypoints(img):
 
 
 def main():
-    imagepath = '/mnt/sata/code/myGit/3DFaceEvaluation/Data/MICCFlorence/Images'
+    imagepath = '/mnt/sata/data/Florence/FlorenceFace/RawFrames/'
     imagefiles = sorted(glob.glob(imagepath + '/**/*.jpg', recursive=True))
-    filelist = []
+    # filelist = []
     for img in imagefiles:
         image = cv2.imread(img)
         detectionPath = img.replace('.jpg', '.txt')
@@ -54,20 +58,85 @@ def main():
             os.remove(detectionPath)
         lndmrks = generate5keypoints(image)
         if lndmrks is not None:
-            s = True
             with open(detectionPath, "a") as f:  # img_addr.split('.')[0] + ".txt"
                 for i in lndmrks:
                     print(str(i[0]) + ' ' + str(i[1]), file=f)
-            filelist.append(img + ',' + detectionPath)
+            # filelist.append(img + ',' + detectionPath)
         else:
             print('Issue : ', img)
+            os.remove(img)
 
-    if os.path.exists('Data/MICCFlorence/Images/imagelist.txt'):
-        os.remove('Data/MICCFlorence/Images/imagelist.txt')
-    with open('Data/MICCFlorence/Images/imagelist.txt', 'a+') as f1:
-        for file in filelist:
-            f1.write(file + '\n')
+    # if os.path.exists('Data/MICCFlorence/Images/imagelist.txt'):
+    #     os.remove('Data/MICCFlorence/Images/imagelist.txt')
+    # with open('Data/MICCFlorence/Images/imagelist.txt', 'a+') as f1:
+    #     for file in filelist:
+    #         f1.write(file + '\n')
+
+
+# draw the bounding boxes for face detection
+def draw_bbox(bounding_boxes, image):
+    for i in range(len(bounding_boxes)):
+        x1, y1, x2, y2 = bounding_boxes[i]
+        cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)),
+                      (0, 0, 255), 2)
+
+    return image
+
+
+# plot the facial landmarks
+def plot_landmarks(landmarks, image):
+    for i in range(len(landmarks)):
+        for p in range(landmarks[i].shape[0]):
+            cv2.circle(image,
+                      (int(landmarks[i][p, 0]), int(landmarks[i][p, 1])),
+                      2, (0, 0, 255), -1, cv2.LINE_AA)
+    return image
+
+
+def cleanMICCFaceImage(root):
+    mtcnn = MTCNN(margin=10, select_largest=True, post_process=False, device='cuda:0')
+
+    imagefiles = sorted(glob.glob(root + '/**/*.jpg', recursive=True))
+
+    for impath in imagefiles:
+
+        try:
+            frame = Image.open(impath)
+            boxes, probs, _ = mtcnn.detect(frame, landmarks=True)
+            if probs[0] is None or probs[0] < 0.99:
+                print(impath, '  :  ', probs)
+                os.remove(impath)
+            elif boxes[0][3] > frame.height:
+                print(impath)
+                os.remove(impath)
+            elif boxes[0][2] > frame.width:
+                print(impath)
+                os.remove(impath)
+            elif boxes[0][0] < 0:
+                print(impath)
+                os.remove(impath)
+        except:
+            print(impath)
+            os.remove(impath)
+
+
+def displayfilecount(root):
+    scene = ['Indoor-Cooperative', 'PTZ-Indoor', 'PTZ-Outdoor']
+    for sub in next(os.walk(root))[1]:
+        for scn in scene:
+            print(os.path.join(root, sub, scn))
+            print(len(glob.glob1(os.path.join(root, sub, scn),'*.jpg')))
+
+    # for scn in scene:
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    # cleanMICCFaceImage('/mnt/sata/data/Florence/FlorenceFace/RawFrames/subject_2*')
+    displayfilecount('/mnt/sata/data/Florence/FlorenceFace/RawFrames')
+
+
+
+
+
+
