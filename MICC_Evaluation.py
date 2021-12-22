@@ -99,7 +99,7 @@ if __name__ == "__main__":
     # Paths
     parser.add_argument("--registration_path", default='Data/MICCFlorence/Reconstruction/BFMRegistered',
                         help="path to the registered MICC Florence dataset")
-    parser.add_argument("--reconstruction_path", default='/mnt/sata/data/Florence/FlorenceFace/RawFrames',
+    parser.add_argument("--reconstruction_path", default='/mnt/sata/data/Florence/FlorenceFace/Pred_Swin_Base',
                         help="path to the reconstructions to be evaluated")
     parser.add_argument('--landmarks', default='Data/MICCFlorence/MICC_landmarks',
                         help='Manually labelled ibug68 landmarks of the MICC dataset')
