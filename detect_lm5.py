@@ -131,10 +131,31 @@ def displayfilecount(root):
     # for scn in scene:
 
 
+def gen5keysNowData(root):
+    with open(os.path.join(root, 'imagepathstest.txt')) as f:
+        lines = f.readlines()
+        for line in lines:
+            line = line.strip()
+            img = os.path.join(root, line)
+            image = cv2.imread(img)
+            detectionPath = img.replace('.jpg', '.txt')
+            if os.path.exists(detectionPath):
+                os.remove(detectionPath)
+            lndmrks = generate5keypoints(image)
+            if lndmrks is not None:
+                with open(detectionPath, "a") as f:  # img_addr.split('.')[0] + ".txt"
+                    for i in lndmrks:
+                        print(str(i[0]) + ' ' + str(i[1]), file=f)
+                # filelist.append(img + ',' + detectionPath)
+            else:
+                print('Issue : ', img)
+                # os.remove(img)
+
+
 if __name__ == '__main__':
     # main()
     # cleanMICCFaceImage('/mnt/sata/data/Florence/FlorenceFace/RawFrames/subject_2*')
-    displayfilecount('/mnt/sata/data/Florence/FlorenceFace/RawFrames')
+    # displayfilecount('/mnt/sata/data/Florence/FlorenceFace/RawFrames')
 
     # imagepath = '/mnt/sata/data/Florence/FlorenceFace/RawFrames'
     # videofiles = sorted(glob.glob(imagepath + '/**/*.obj', recursive=True))
@@ -143,6 +164,8 @@ if __name__ == '__main__':
     #     # os.remove(f)
     #     os.makedirs(os.path.dirname(f.replace('RawFrames', 'Pred_Microsoft3d')), exist_ok=True)
     #     shutil.move(f, f.replace('RawFrames', 'Pred_Microsoft3d'))
+
+    gen5keysNowData('/mnt/sata/data/NowDataset/NoW_Dataset/final_release_version/iphone_pictures')
 
 
 

@@ -42,7 +42,7 @@ def createImageListFile():
 
 def movePredShapes():
     rawframePath = '/mnt/sata/data/Florence/FlorenceFace/RawFrames'
-    targetFolder = 'Pred_Swin_Base'
+    targetFolder = 'Pred_Swin_Tiny'
     objfiles = sorted(glob.glob(rawframePath+ '/**/*.obj', recursive=True))
     for objfile in objfiles:
         newPath = os.path.dirname(objfile).replace('RawFrames', targetFolder)
