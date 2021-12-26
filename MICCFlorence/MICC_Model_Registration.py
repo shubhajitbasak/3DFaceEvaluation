@@ -27,8 +27,8 @@ def main(args):
     registration_path = args.save_path
     landmarks_only_path = args.landmarks
 
-    template = m3io.import_mesh('../Data/MICCFlorence/BFM/bfm_model_front.obj')
-    template_lms = np.array(mio.import_pickle('../Data/MICCFlorence/BFM/landmark_ids_bfm.pkl'))
+    template = m3io.import_mesh('Data/BFM/bfm_model_front.obj')
+    template_lms = np.array(mio.import_pickle('Data/BFM/landmark_ids_bfm.pkl'))
     template.landmarks['LJSON'] = PointCloud(template.points[template_lms])
 
     dataset_paths = glob.glob(os.path.join(MICC_path, 'subject_*/Model/frontal*/obj/*.obj'))

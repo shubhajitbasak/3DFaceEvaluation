@@ -1,7 +1,7 @@
 import bpy
 import numpy as np
 
-vertices_bfm = np.load('/mnt/sata/code/myGit/3DFaceEvaluation/Data/MICCFlorence/BFM/landmark_ids_bfm.pkl', allow_pickle=True)
+vertices_bfm = np.load('/MICCFlorence/Data/BFM/landmark_ids_bfm.pkl', allow_pickle=True)
 
 bpy.ops.object.mode_set(mode = 'OBJECT')
 obj = bpy.context.active_object
@@ -22,4 +22,4 @@ bpy.ops.object.mode_set(mode = 'EDIT')
 
 print(vertex_pos)
 
-np.save('/mnt/sata/code/myGit/3DFaceEvaluation/Data/MICCFlorence/BFM/landmark_ids_loc.npy',vertex_pos)
+np.save('/MICCFlorence/Data/BFM/landmark_ids_loc.npy', vertex_pos)

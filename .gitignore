@@ -1,10 +1,10 @@
 /Data/Test
-/Data/MICCFlorence/BFM/bfm_model_front.obj
-/Data/MICCFlorence/BFM/BFM_model_front.mat
+/MICCFlorence/Data/BFM/bfm_model_front.obj
+/MICCFlorence/Data/BFM/BFM_model_front.mat
 /Data/MICCFlorence/Images
-/Data/MICCFlorence/Reconstruction
+MICCFlorence/Data/Reconstruction
 .idea
-/Data/MICCFlorence/BFM/bfm.blend
-/Data/MICCFlorence/BFM/landmark_ids_loc.npy
+/MICCFlorence/Data/BFM/bfm.blend
+/MICCFlorence/Data/BFM/landmark_ids_loc.npy
 /Data/MICCFlorence/MICCImages
-/Data/MICCFlorence/BFM/bfm.blend1
+/MICCFlorence/Data/BFM/bfm.blend1
