@@ -45,9 +45,9 @@ import subprocess
 import glob
 import numpy as np
 
-root = '/mnt/sata/data/NowDataset/NoW_Dataset/ModelOutput/SwinBase'
+root = '/mnt/sata/data/NowDataset/NoW_Dataset/ModelOutput/SwinBaseNeutral'
 objPaths = sorted(glob.glob(root + '/**/IMG*.obj', recursive=True))
-blenderGenLmCoord = '/mnt/sata/code/myGit/3DFaceEvaluation/Data/Now_Dataset/Blender/generateLandmarkCoords.py'
+blenderGenLmCoord = '/mnt/sata/code/myGit/3DFaceEvaluation/Now_Dataset/Blender/generateLandmarkCoords.py'
 # objFilePath = '/mnt/sata/data/NowDataset/NoW_Dataset/ModelOutput/SwinBase/' \
 #               'FaMoS_180424_03335_TA/multiview_expressions/IMG_0053.obj'
 
