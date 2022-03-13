@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/MICCFlorence/Data/Reconstruction" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.7 (florenceEval)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.7 (now_eval)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
